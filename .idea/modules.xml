@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/Spring Framework &amp; Spring Boot desde cero a experto.iml" filepath="$PROJECT_DIR$/.idea/Spring Framework &amp; Spring Boot desde cero a experto.iml" />
+      <module fileurl="file://$PROJECT_DIR$/spring-boot-horario/spring-boot-horario.iml" filepath="$PROJECT_DIR$/spring-boot-horario/spring-boot-horario.iml" />
     </modules>
   </component>
 </project>

@@ -35,7 +35,7 @@ public class TiempoTranscurridoInterceptor implements HandlerInterceptor {
         Random random = new Random();
         Integer demora = random.nextInt(500); //Entre 0 y 500 (el valor introducido)
         Thread.sleep(demora);
-        
+
         return true;
     }
 
