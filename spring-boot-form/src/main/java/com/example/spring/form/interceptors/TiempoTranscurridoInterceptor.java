@@ -2,22 +2,40 @@ package com.example.spring.form.interceptors;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.Random;
+
 public class TiempoTranscurridoInterceptor implements HandlerInterceptor {
+
+    private static final Logger logger = LoggerFactory.getLogger(TiempoTranscurridoInterceptor.class);
+
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+        logger.info("TiempoTranscurridoInterceptor: preHandle() entrando ...");
+        long tiempoInicio = System.currentTimeMillis();
+        request.setAttribute("tiempoInicio", tiempoInicio);
+        Random random = new Random();
+        Integer demora = random.nextInt(500); //Entre 0 y 500 (el valor introducido)
+        Thread.sleep(demora);
         return true;
     }
 
     @Override
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
-        HandlerInterceptor.super.postHandle(request, response, handler, modelAndView);
-    }
 
-    @Override
-    public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
-        HandlerInterceptor.super.afterCompletion(request, response, handler, ex);
+        long tiempoInicio = (long) request.getAttribute("tiempoInicio");
+        long tiempoFin = System.currentTimeMillis();
+        long tiempoTranscurrido = tiempoFin - tiempoInicio;
+
+        if(modelAndView != null){
+            modelAndView.addObject("tiempoTranscurrido", tiempoTranscurrido);
+        }
+
+        logger.info("Tiempo transcurrido: " + tiempoTranscurrido + " milisegundos.");
+        logger.info("TiempoTranscurridoInterceptor: postHandle() saliendo ...");
     }
 }
