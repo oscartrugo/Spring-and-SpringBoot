@@ -9,7 +9,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import java.util.Calendar;
 
-@Component
+@Component("horario")
 public class HorarioInterceptor implements HandlerInterceptor {
     @Value("${config.horario.apertura}")
     private Integer apertura;
