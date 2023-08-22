@@ -25,10 +25,11 @@ public class AppController {
 
     @GetMapping("/ver/{id}")
     public String ver(@PathVariable Integer id, Model model){
-        Usuario usuario = usuarioService.obtenerPorId(id); //Obtenemos el usuario por el id
-        if(usuario==null){
+       // Usuario usuario = usuarioService.obtenerPorId(id); //Obtenemos el usuario por el id
+        /*if(usuario==null){
             throw new UsuarioNoEncontradoException(id.toString()); //Lanzamos nuestro error personalizado de tipo UsuarioNoEncontrado
-        }
+        }*/
+        Usuario usuario = usuarioService.obtenerPorIdOptional(id).orElseThrow(() -> new UsuarioNoEncontradoException(id.toString())); //Esto es en vez de todo lo anterior
         model.addAttribute("usuario", usuario); //Le pasamos el usuario a la vista
         model.addAttribute("titulo", "Detalle usuario: ".concat(usuario.getNombre()));
         return "ver";
