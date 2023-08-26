@@ -8,29 +8,29 @@
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 </head>
 <body>
-<h1 th:text="${titulo}"></h1>
-<form th:action="@{/form}" th:object="${cliente}"> <!-- Url hacia la ruta que hace la acción, en este caso el controlador /form -->
-    <table>
-        <tr>
-            <td>Id</td>
-            <td></td>
-        </tr>
-        <tr>
-            <td>Nombre</td>
-            <td></td>
-        </tr>
-        <tr>
-            <td>Apellido</td>
-            <td></td>
-        </tr>
-        <tr>
-            <td>Email</td>
-            <td></td>
-        </tr>
-        <tr>
-            <td></td>
-        </tr>
-    </table>
-</form>
+<div class="container">
+    <h1 class="text-primary border border-success border-top-0 border-left-0 border-right-0" th:text="${titulo}"></h1>
+    <form th:action="@{/form}" th:object="${cliente}" method="post">
+        <!-- Url hacia la ruta que hace la acción, en este caso el controlador /form -->
+        <table>
+            <tr>
+                <td>Nombre</td>
+                <td><input type="text" th:field="*{nombre}" class="form-control" /></td>
+            </tr>
+            <tr>
+                <td>Apellido</td>
+                <td><input type="text" th:field="*{apellido}" class="form-control" /></td>
+            </tr>
+            <tr>
+                <td>Email</td>
+                <td><input type="email" th:field="*{email}" class="form-control" /></td>
+            </tr>
+            <tr>
+                <td><input type="submit" value="Crear cliente"/></td>
+            </tr>
+        </table>
+        <input type="hidden" th:field="*{id}" class="btn btn-primary"/>
+    </form>
+</div>
 </body>
 </html>

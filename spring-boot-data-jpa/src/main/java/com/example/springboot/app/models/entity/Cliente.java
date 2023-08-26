@@ -22,10 +22,9 @@ public class Cliente implements Serializable {
     @Temporal(TemporalType.DATE) //Temporal indica el formato en que se guarda esta fecha de Java en la tabla en el campo
     private Date createAt;
 
-    private static final long serialVersionUID = 1l;
-
-    public static long getSerialVersionUID() {
-        return serialVersionUID;
+    @PrePersist
+    public void prePersist(){ //Antes de que se guarde la base de datos
+        createAt = new Date();
     }
 
     public Long getId() {
