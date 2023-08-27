@@ -1,9 +1,12 @@
 package com.example.springboot.app.models.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import java.io.Serial;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -15,10 +18,16 @@ public class Cliente implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotEmpty
+    @Size(min = 4, max = 12)
     private String nombre;
+    @NotEmpty
     private String apellido;
+    @NotEmpty
+    @Email
     private String email;
 
+    @NotNull
     @Column(name = "create_at")
     @Temporal(TemporalType.DATE) //Temporal indica el formato en que se guarda esta fecha de Java en la tabla en el campo
     @DateTimeFormat(pattern = "yyyy-MM-dd")

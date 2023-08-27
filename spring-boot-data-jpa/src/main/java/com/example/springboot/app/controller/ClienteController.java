@@ -2,14 +2,13 @@ package com.example.springboot.app.controller;
 
 import com.example.springboot.app.models.dao.IClienteDao;
 import com.example.springboot.app.models.entity.Cliente;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
@@ -39,7 +38,11 @@ public class ClienteController {
     }
 
     @PostMapping("/form")
-    public String guardar(Cliente cliente){ //Recibe el objeto Cliente que viene con los datos poblados del formulario
+    public String guardar(@Valid @ModelAttribute("cliente") Cliente cliente, BindingResult result, Model model){ //Habilitamos la validación para que se valide el cliente //Recibe el objeto Cliente que viene con los datos poblados del formulario
+        if(result.hasErrors()){ //Si el cliente tiene errores ...
+            model.addAttribute("titulo", "Formulario de Cliente"); //El cliente se pasa en automático si se llaman igual
+            return "form"; //Retornamos la vista con los errores
+        }
         clienteDao.save(cliente); //Los guardamos
         return "redirect:listar"; //Redirigimos a listar usuarios
     }
