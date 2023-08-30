@@ -22,6 +22,12 @@ public class ClienteDaoImpl implements IClienteDao {
     }
 
     @Override
+    @Transactional(readOnly = true)
+    public Cliente findOne(Long id) {
+        return entityManager.find(Cliente.class, id); //JPA va a la base de datos y nos regresa el objeto Cliente
+    }
+
+    @Override
     @Transactional
     public void save(Cliente cliente) { //Aqu{i editamos también los clientes existentes
         if(cliente.getId() != null && cliente.getId() > 0){ //si el id es distinto de nulo y mayor que cero ...
@@ -32,7 +38,9 @@ public class ClienteDaoImpl implements IClienteDao {
     }
 
     @Override
-    public Cliente findOne(Long id) {
-        return entityManager.find(Cliente.class, id); //JPA va a la base de datos y nos regresa el objeto Cliente
+    @Transactional
+    public void delete(Long id) {
+        Cliente cliente = findOne(id); //Obtenemos el cliente por id
+        entityManager.remove(cliente); //Lo eliminamos de la base de datos.
     }
 }
