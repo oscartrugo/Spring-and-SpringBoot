@@ -1,7 +1,7 @@
 package com.example.springboot.app.controller;
 
-import com.example.springboot.app.models.dao.IClienteDao;
 import com.example.springboot.app.models.entity.Cliente;
+import com.example.springboot.app.models.service.IClienteService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -18,13 +18,12 @@ import java.util.Map;
 public class ClienteController {
 
     @Autowired //Busca un componente registrado en el contenedor que implemente IClienteDao
-    @Qualifier("clienteDaoJPA")
-    private IClienteDao clienteDao;
+    private IClienteService clienteService;
 
     @RequestMapping(value = "listar", method = RequestMethod.GET)
     public String listar(Model model){
         model.addAttribute("titulo", "Listado de clientes");
-        model.addAttribute("clientes", clienteDao.findAll());
+        model.addAttribute("clientes", clienteService.findAll());
         return "listar";
     }
 
@@ -45,7 +44,7 @@ public class ClienteController {
         Cliente cliente = null;
 
         if(id>0){
-            cliente = clienteDao.findOne(id);
+            cliente = clienteService.findOne(id);
         }else{
             return "redirect:/listar";
         }
@@ -61,7 +60,7 @@ public class ClienteController {
             model.addAttribute("titulo", "Formulario de Cliente"); //El cliente se pasa en automático si se llaman igual
             return "form"; //Retornamos la vista con los errores
         }
-        clienteDao.save(cliente); //Los guardamos
+        clienteService.save(cliente); //Los guardamos
         status.setComplete(); //Elimina el objeto cliente de la sesión y termina el proceso de editar o crear
         return "redirect:listar"; //Redirigimos a listar usuarios
     }
@@ -69,7 +68,7 @@ public class ClienteController {
     @RequestMapping(value = "/eliminar/{id}")
     public String eliminar(@PathVariable(value = "id") Long id){
         if(id>0){
-            clienteDao.delete(id);
+            clienteService.delete(id);
         }
         return "redirect:/listar";
     }
